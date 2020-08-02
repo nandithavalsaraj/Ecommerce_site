@@ -1,6 +1,12 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
+
+
+/*Using the use function to automatically apply a middleware function to all requests */
+/*To automatically parse the forms*/
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/', (request, response) => {
     response.send(`
@@ -21,26 +27,9 @@ app.listen(3000, () => {
     console.log('listening');
 });
 
-const bodyParser = (request, response, next) => {
-    if(request.method ==='POST'){
-        request.on('data', data =>{
-        const parsed = data.toString('utf8').split('&');
-        const formData = {};
-        for(pair of parsed){
-            const [key,value] = pair.split('=');
-            formData[key] = value;
-            }
-        request.body = formData;
-        next();
-        });
-        }
-     else{
-        next();
-     }
-}
 
-
-app.post('/', bodyParser, (request, response) =>{
+/*urlencoded  to specify that information obtained via html*/
+app.post('/', (request, response) =>{
     console.log(request.body);
     response.send("Account Created");
 });
