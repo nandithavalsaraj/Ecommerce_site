@@ -15,22 +15,29 @@ class UsersRepository{
     }
 
     async getAll(){
-        //open file called this.filename
-        const contents = await fs.promises.readFile(this.filename, {encoding:'utf8'});
-        //read contents
-        console.log(contents);
-        //parse contents
-        const data = JSON.parse(contents);
-        //return parsed data
-        return data;
+        //open file called this.filename and read contents
+        //return the parse contents
+        return  JSON.parse(await fs.promises.readFile(this.filename, {encoding:'utf8'}));
+    }
+
+    async create(attrs){
+        //sttributes are email and password
+        //need to be update the user file
+        const records = await this.getAll();
+        records.push(attrs);
+        //write up updated file data to the file
+        await fs.promises.writeFile(this.filename, JSON.stringify(records));
     }
  }
 
+
+
+
 const test = async() => {
     const repo = new UsersRepository('users.json');
-
+    repo.create({email:'test@test.com', password:'password'});
     const users = await repo.getAll();
 
     console.log(users);
-    };
+    }
 test();
