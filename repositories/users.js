@@ -1,4 +1,5 @@
 const fs = require('fs');
+const crypto = require('crypto');
 
 class UsersRepository{
     constructor(filename){
@@ -18,13 +19,15 @@ class UsersRepository{
         //open file called this.filename and read contents
         //return the parse contents
         return  JSON.parse(
-            await fs.promises.readFile(this.filename, {
-               encoding:'utf8'
-               })
-               );
+            JSON.stringify(
+                await fs.promises.readFile(this.filename, {
+                encoding:'utf8'
+                })
+               ));
     }
 
     async create(attrs){
+         attrs.id = this.randomId();
         //sttributes are email and password
         //need to be update the user file
         const records = await this.getAll();
@@ -39,6 +42,9 @@ class UsersRepository{
             JSON.stringify(records, null, 2)
         );
     }
+    randomId() {
+        return crypto.randomBytes(4).toString('hex');
+      }
  }
 
 
