@@ -19,6 +19,6 @@
   "homepage": "https://github.com/nandithavalsaraj/Ecommerce_site#readme",
   "dependencies": {
     "express": "^4.17.3",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.20"
   }
 }
